@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Gửi Em — Trần Bảo Quỳnh 💕</title>
+  <meta name="description" content="Một lời yêu thương từ Trần Tiến Dũng gửi Trần Bảo Quỳnh">
+  <meta name="theme-color" content="#0a0a1a">
+
+  <!-- Favicon: Heart -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💕</text></svg>">
+
+  <!-- Preconnect Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Dancing+Script:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       PRELOADER
+       ═══════════════════════════════════════ -->
+  <div id="preloader">
+    <div class="preloader-heart">💕</div>
+    <p class="preloader-text">Đang chuẩn bị điều bất ngờ…</p>
+    <div class="preloader-bar">
+      <div class="preloader-bar-inner" id="preloader-progress"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       CUSTOM CURSOR (Desktop only)
+       ═══════════════════════════════════════ -->
+  <div class="cursor-heart" id="cursor">💗</div>
+
+  <!-- ═══════════════════════════════════════
+       CANVAS LAYERS
+       ═══════════════════════════════════════ -->
+  <canvas id="stars-canvas"></canvas>
+  <canvas id="confetti-canvas"></canvas>
+  <canvas id="fireworks-canvas"></canvas>
+
+  <!-- ═══════════════════════════════════════
+       MUSIC PLAYER (Floating Widget)
+       ═══════════════════════════════════════ -->
+  <div id="music-player">
+    <button id="music-toggle" title="Bật/Tắt nhạc" aria-label="Toggle music">
+      <span id="music-icon">♪</span>
+    </button>
+    <div class="music-bars" id="music-bars">
+      <div class="music-bar" style="height:4px"></div>
+      <div class="music-bar" style="height:8px"></div>
+      <div class="music-bar" style="height:6px"></div>
+      <div class="music-bar" style="height:10px"></div>
+      <div class="music-bar" style="height:5px"></div>
+    </div>
+  </div>
+
+  <!-- Easter Egg Heart (bottom-left) -->
+  <div id="easter-heart" title="💕">💗</div>
+
+  <!-- ═══════════════════════════════════════
+       MAIN APP
+       ═══════════════════════════════════════ -->
+  <div id="app">
+
+    <!-- ─── PAGE 1: LANDING ─── -->
+    <section id="page-landing" class="page active">
+      <div class="page-content">
+        <div class="typing-container">
+          <p class="typing-text" id="typing-text"></p>
+        </div>
+        <button class="main-btn" id="btn-enter" style="opacity:0; pointer-events:none;">
+          Em có sẵn sàng bước vào thế giới của anh không? 💫
+        </button>
+      </div>
+    </section>
+
+    <!-- ─── PAGE 2: CONFESSION ─── -->
+    <section id="page-confession" class="page">
+      <div class="page-content">
+        <div class="confession-text">
+          <p class="reveal" data-delay="0">Hôm trước anh đã tỏ tình với em…</p>
+          <p class="reveal" data-delay="200">Nhưng có lẽ anh đã không đủ tinh tế.</p>
+          <br>
+          <p class="reveal" data-delay="400">Anh không muốn tình yêu của mình là một câu nói vội.</p>
+          <br>
+          <p class="reveal" data-delay="600">Vậy nên hôm nay…</p>
+          <p class="reveal highlight" data-delay="800">Anh viết lại bằng tất cả sự chân thành của mình.</p>
+        </div>
+        <button class="main-btn reveal" data-delay="1000" id="btn-moments">
+          Anh muốn cho em xem những điều anh trân trọng… ✨
+        </button>
+      </div>
+    </section>
+
+    <!-- ─── PAGE 3: MOMENTS (GALLERY) ─── -->
+    <section id="page-moments" class="page">
+      <div class="page-content scrollable">
+        <h2 class="section-title reveal">Những Khoảnh Khắc</h2>
+        <p class="section-subtitle reveal" data-delay="200">Mỗi bức ảnh là một mảnh ký ức anh muốn giữ mãi…</p>
+
+        <button class="slideshow-toggle reveal" data-delay="300" id="slideshow-toggle">
+          🎞️ Chế độ trình chiếu
+        </button>
+
+        <div id="gallery" class="masonry-grid"></div>
+
+        <button class="main-btn reveal" data-delay="200" id="btn-love-things">
+          Còn nữa, em ơi… 💕
+        </button>
+      </div>
+    </section>
+
+    <!-- ─── PAGE 4: THINGS I LOVE ─── -->
+    <section id="page-love" class="page">
+      <div class="page-content scrollable">
+        <h2 class="section-title reveal">Những Điều Anh Yêu Ở Em</h2>
+        <p class="section-subtitle reveal" data-delay="200">Mỗi điều nhỏ bé… đều là lý do anh yêu em 💗</p>
+        <div class="love-things-container" id="love-things-container"></div>
+        <button class="main-btn reveal" data-delay="200" id="btn-melody">
+          Anh muốn em nghe giai điệu này… 🎵
+        </button>
+      </div>
+    </section>
+
+    <!-- ─── PAGE 5: MELODY ─── -->
+    <section id="page-melody" class="page">
+      <div class="page-content">
+        <h2 class="section-title reveal">Giai Điệu Của Chúng Ta</h2>
+        <p class="section-subtitle reveal" data-delay="200">Bài hát này… anh muốn em nghe bằng trái tim 🎶</p>
+
+        <div class="melody-container reveal" data-delay="400">
+          <canvas id="audio-canvas"></canvas>
+          <div class="melody-controls">
+            <button class="play-btn" id="play-btn">▶</button>
+            <p class="song-info" id="song-info">Nhấn play để nghe…</p>
+          </div>
+        </div>
+
+        <button class="main-btn reveal" data-delay="600" id="btn-choice">
+          Và cuối cùng… 💌
+        </button>
+      </div>
+    </section>
+
+    <!-- ─── PAGE 6: CHOICE ─── -->
+    <section id="page-choice" class="page">
+      <div class="page-content">
+        <p class="choice-question reveal">
+          Em có đồng ý cho anh một cơ hội<br>
+          yêu em theo cách chỉnh chu hơn không?
+        </p>
+        <div class="choice-buttons reveal" data-delay="400">
+          <button class="choice-btn yes-btn" id="btn-yes">💖 Đồng ý</button>
+          <button class="choice-btn no-btn" id="btn-maybe">🙈 Em cần suy nghĩ</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PAGE 7: THANK YOU ─── -->
+    <section id="page-thankyou" class="page">
+      <div class="page-content">
+        <h2 class="thankyou-title">Cảm ơn em… 💕</h2>
+        <p class="thankyou-text">
+          Từ hôm nay, anh hứa sẽ yêu em<br>
+          bằng tất cả những gì tốt đẹp nhất anh có.<br><br>
+          Anh sẽ là người luôn ở bên em,<br>
+          trong mọi khoảnh khắc — dù vui hay buồn.
+        </p>
+        <p class="thankyou-signature">— Mãi yêu em, Trần Tiến Dũng —</p>
+      </div>
+    </section>
+
+    <!-- ─── SECRET PAGE (Easter Egg) ─── -->
+    <section id="page-secret" class="page">
+      <div class="page-content">
+        <div class="secret-content">
+          <h2>🔐 Em đã tìm thấy bí mật!</h2>
+          <p class="secret-message">
+            "Dù thế giới có đổi thay thế nào…<br>
+            Anh vẫn muốn là người nắm tay em<br>
+            đầu tiên và cuối cùng."
+          </p>
+          <p class="secret-signature">— Mãi yêu em, Dũng 💕 —</p>
+        </div>
+        <button class="main-btn" id="btn-back-secret">
+          Quay lại hành trình ❤️
+        </button>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       LIGHTBOX
+       ═══════════════════════════════════════ -->
+  <div id="lightbox">
+    <button class="lightbox-btn" id="lightbox-close" aria-label="Close">&times;</button>
+    <button class="lightbox-btn" id="lightbox-prev" aria-label="Previous">‹</button>
+    <button class="lightbox-btn" id="lightbox-next" aria-label="Next">›</button>
+    <img id="lightbox-img" src="" alt="Khoảnh khắc">
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PASSWORD MODAL (Easter Egg)
+       ═══════════════════════════════════════ -->
+  <div id="password-modal">
+    <div class="modal-content">
+      <p>Nhập mật mã bí mật… 🔐</p>
+      <input type="password" id="secret-password" maxlength="4" placeholder="••••" autocomplete="off">
+      <button id="password-submit">Mở khóa</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       AUDIO ELEMENT
+       ═══════════════════════════════════════ -->
+  <audio id="bg-audio" preload="auto" loop></audio>
+
+  <!-- Main Script -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+</html>

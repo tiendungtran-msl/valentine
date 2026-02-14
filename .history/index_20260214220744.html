@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Vũ Trụ Của Anh Và Em — Trần Tiến Dũng x Trần Bảo Quỳnh 💕</title>
+  <meta name="description" content="Một lời yêu thương từ Trần Tiến Dũng gửi Trần Bảo Quỳnh">
+  <meta name="theme-color" content="#0a0a1a">
+
+  <!-- Favicon: Heart -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💕</text></svg>">
+
+  <!-- Preconnect Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Caveat:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Dancing+Script:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       PRELOADER
+       ═══════════════════════════════════════ -->
+  <div id="preloader">
+    <div class="preloader-heart">💕</div>
+    <p class="preloader-text">Đang chuẩn bị điều bất ngờ…</p>
+    <div class="preloader-bar">
+      <div class="preloader-bar-inner" id="preloader-progress"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       CUSTOM CURSOR (Desktop only)
+       ═══════════════════════════════════════ -->
+  <div class="cursor-heart" id="cursor">💗</div>
+
+  <!-- ═══════════════════════════════════════
+       CANVAS LAYERS
+       ═══════════════════════════════════════ -->
+  <canvas id="stars-canvas"></canvas>
+  <canvas id="confetti-canvas"></canvas>
+  <canvas id="fireworks-canvas"></canvas>
+
+  <!-- ═══════════════════════════════════════
+       MUSIC PLAYER (Floating Widget)
+       ═══════════════════════════════════════ -->
+  <div id="music-player">
+    <button id="music-toggle" title="Bật/Tắt nhạc" aria-label="Toggle music">
+      <span id="music-icon">♪</span>
+    </button>
+    <div class="music-bars" id="music-bars">
+      <div class="music-bar" style="height:4px"></div>
+      <div class="music-bar" style="height:8px"></div>
+      <div class="music-bar" style="height:6px"></div>
+      <div class="music-bar" style="height:10px"></div>
+      <div class="music-bar" style="height:5px"></div>
+    </div>
+  </div>
+
+  <!-- Easter Egg Heart (bottom-left) -->
+  <div id="easter-heart" title="💕">💗</div>
+
+  <!-- ═══════════════════════════════════════
+       MAIN APP
+       ═══════════════════════════════════════ -->
+  <div id="app">
+
+    <!-- ─── PAGE 1: LANDING ─── -->
+    <section id="page-landing" class="page active">
+      <div class="page-content">
+        <div class="typing-container">
+          <p class="typing-text" id="typing-text"></p>
+        </div>
+        <button class="main-btn" id="btn-enter" style="opacity:0; pointer-events:none;">
+          Em có sẵn lòng bước cùng anh qua cánh cửa của những vì sao không? 💫
+        </button>
+      </div>
+    </section>
+
+    <!-- ─── PAGE 2: CONFESSION ─── -->
+    <section id="page-confession" class="page">
+      <div class="page-content">
+        <div class="confession-text">
+          <p class="reveal" data-delay="0">Hôm trước, anh đã nói yêu em bằng một trái tim run rẩy…</p>
+          <p class="reveal" data-delay="200">và có lẽ, lời ấy còn vụng về như một cơn mưa đầu mùa.</p>
+          <br>
+          <p class="reveal" data-delay="400">Anh không muốn tình yêu của mình chỉ là một câu nói vội qua môi.</p>
+          <br>
+          <p class="reveal" data-delay="600">Vậy nên tối nay, giữa bầu trời đầy sao, giữa ngày mà cả thế giới đều nói lời yêu</p>
+          <p class="reveal highlight" data-delay="800">anh muốn giữ lấy tình yêu lớn nhất, đẹp nhất,
+để dành trọn cho em — người duy nhất trong trái tim anh.</p>
+        </div>
+        <button class="main-btn reveal" data-delay="1000" id="btn-open-map">
+          Em mở tấm bản đồ trái tim này nhé… 🗺️
+        </button>
+      </div>
+    </section>
+
+    <!-- ─── PAGE 3: JOURNEY MAP ─── -->
+    <section id="page-map" class="page">
+      <div class="page-content">
+        <h2 class="section-title reveal">Bản Đồ Hành Trình Valentine</h2>
+        <p class="section-subtitle reveal" data-delay="200">Mỗi lối đi là một mảnh anh muốn kể cho em nghe</p>
+
+        <div class="journey-grid reveal" data-delay="300">
+          <button class="journey-card" id="btn-path-moments">
+            <span class="journey-icon">📸</span>
+            <span class="journey-title">Hành Lang Ký Ức</span>
+            <span class="journey-desc">Nơi những khoảnh khắc của chúng ta được cất bằng ánh sáng.</span>
+          </button>
+
+          <button class="journey-card" id="btn-path-love">
+            <span class="journey-icon">💗</span>
+            <span class="journey-title">Khu Vườn Lời Yêu</span>
+            <span class="journey-desc">Những điều nhỏ bé về em mà anh thương đến vô hạn.</span>
+          </button>
+
+          <button class="journey-card" id="btn-path-melody">
+            <span class="journey-icon">🎵</span>
+            <span class="journey-title">Đài Thiên Văn Giai Điệu</span>
+            <span class="journey-desc">Nơi âm nhạc giữ hộ những điều anh chưa kịp nói.</span>
+          </button>
+        </div>
+
+        <p class="journey-progress reveal" data-delay="450" id="route-progress">Em đã khám phá: 0/3 chặng</p>
+
+        <button class="main-btn reveal disabled-route" data-delay="550" id="btn-to-choice" disabled>
+          Cánh cửa cuối vẫn đang đợi em… 🔒
+        </button>
+      </div>
+    </section>
+
+    <!-- ─── PAGE 4: MOMENTS (GALLERY) ─── -->
+    <section id="page-moments" class="page">
+      <div class="page-content scrollable">
+        <h2 class="section-title reveal">Những Khoảnh Khắc</h2>
+        <p class="section-subtitle reveal" data-delay="200">Mỗi bức ảnh là một nhịp thở của tuổi trẻ mình đi cùng nhau…</p>
+
+        <div class="memory-stage reveal" data-delay="300" id="memory-stage">
+          <div class="memory-stage-overlay">
+            <p class="memory-stage-line" id="memory-stage-line">Có những ngày theo đuổi, chỉ cần nhìn thấy em là đủ vui cả buổi chiều.</p>
+          </div>
+        </div>
+
+        <div id="gallery" class="masonry-grid"></div>
+
+        <button class="main-btn reveal" data-delay="200" id="btn-love-things">
+          Đi tiếp đến Khu Vườn Lời Yêu 🌷
+        </button>
+        <button class="main-btn reveal secondary-btn" data-delay="260" id="btn-back-map-1">
+          Quay về Bản Đồ Hành Trình 🗺️
+        </button>
+      </div>
+    </section>
+
+    <!-- ─── PAGE 5: THINGS I LOVE ─── -->
+    <section id="page-love" class="page">
+      <div class="page-content scrollable">
+        <h2 class="section-title reveal">Một Bức Thư Dài Gửi Em</h2>
+        <p class="section-subtitle reveal" data-delay="200">Không phải danh sách lý do — mà là những đoạn đời anh muốn đi cùng em 💗</p>
+        <div class="love-things-container" id="love-things-container"></div>
+        <button class="main-btn reveal" data-delay="200" id="btn-melody">
+          Sang Đài Thiên Văn Giai Điệu 🎵
+        </button>
+        <button class="main-btn reveal secondary-btn" data-delay="260" id="btn-back-map-2">
+          Quay về Bản Đồ Hành Trình 🗺️
+        </button>
+      </div>
+    </section>
+
+    <!-- ─── PAGE 6: MELODY ─── -->
+    <section id="page-melody" class="page">
+      <div class="page-content">
+        <h2 class="section-title reveal">Giai Điệu Của Chúng Ta</h2>
+        <p class="section-subtitle reveal" data-delay="200">Có những lời yêu không cần nói, chỉ cần nghe bằng tim 🎶</p>
+
+        <div class="melody-container reveal" data-delay="400">
+          <canvas id="audio-canvas"></canvas>
+          <div class="melody-controls">
+            <button class="play-btn" id="play-btn">▶</button>
+            <p class="song-info" id="song-info">Nhấn play để nghe…</p>
+            <p class="song-sub" id="song-sub">Mỗi bản nhạc là một cột mốc cảm xúc của chúng mình.</p>
+          </div>
+        </div>
+
+        <button class="main-btn reveal" data-delay="600" id="btn-choice">
+          Đi đến cánh cửa cuối cùng 💌
+        </button>
+        <button class="main-btn reveal secondary-btn" data-delay="680" id="btn-back-map-3">
+          Quay về Bản Đồ Hành Trình 🗺️
+        </button>
+      </div>
+    </section>
+
+    <!-- ─── PAGE 7: CHOICE ─── -->
+    <section id="page-choice" class="page">
+      <div class="page-content">
+        <p class="choice-question reveal">
+          Chúng ta hãy cùng nhau dệt nên câu chuyện tình yêu và cả tình yêu đẹp nhất ta từng thấy nhé.
+        </p>
+        <div class="choice-buttons reveal" data-delay="400">
+          <button class="choice-btn yes-btn" id="btn-yes">💖 Đồng ý</button>
+          <button class="choice-btn no-btn" id="btn-maybe">🙈 Em cần suy nghĩ</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PAGE 8: THANK YOU ─── -->
+    <section id="page-thankyou" class="page">
+      <div class="page-content">
+        <h2 class="thankyou-title">Và đây là lời hứa anh muốn giữ suốt đời 💕</h2>
+        <p class="thankyou-text">
+          Không cần những câu thề quá lớn, anh chỉ chọn một điều rõ ràng: từ hôm nay và cả về sau,
+          anh sẽ yêu em bằng sự tử tế mỗi ngày, bằng sự kiên nhẫn khi mình mỏi mệt,
+          và bằng sự chân thành ngay cả khi cuộc sống không dịu dàng.
+          Nếu có những mùa rực rỡ, anh muốn đứng cạnh em để cùng vui.
+          Nếu có những ngày chông chênh, anh vẫn muốn là người ở lại,
+          nắm tay em đi qua cho đến khi bình yên quay về.
+        </p>
+        <p class="thankyou-signature">— Trần Tiến Dũng, với tất cả lòng biết ơn vì có em —</p>
+      </div>
+    </section>
+
+    <!-- ─── SECRET PAGE (Easter Egg) ─── -->
+    <section id="page-secret" class="page">
+      <div class="page-content">
+        <div class="secret-content">
+          <h2>🔐 Mật thư dành riêng cho em</h2>
+          <p class="secret-message">
+            "Nếu mai này người ta hỏi điều đẹp nhất anh từng có là gì,
+            anh sẽ trả lời không do dự: là em — là cách em bước vào đời anh, lặng lẽ mà làm mọi thứ sáng lên.
+            Anh không xin một tình yêu hoàn hảo, anh chỉ xin được cùng em đi trọn vẹn:
+            đủ tin, đủ thương, đủ can đảm để chọn nhau nhiều lần nữa."
+          </p>
+          <p class="secret-signature">— Anh yêu em, theo cách bình tĩnh nhất và bền bỉ nhất —</p>
+        </div>
+        <button class="main-btn" id="btn-back-secret">
+          Quay lại hành trình ❤️
+        </button>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       LIGHTBOX
+       ═══════════════════════════════════════ -->
+  <div id="lightbox">
+    <button class="lightbox-btn" id="lightbox-close" aria-label="Close">&times;</button>
+    <button class="lightbox-btn" id="lightbox-prev" aria-label="Previous">‹</button>
+    <button class="lightbox-btn" id="lightbox-next" aria-label="Next">›</button>
+    <img id="lightbox-img" src="" alt="Khoảnh khắc">
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PASSWORD MODAL (Easter Egg)
+       ═══════════════════════════════════════ -->
+  <div id="password-modal">
+    <div class="modal-content">
+      <p class="modal-question">Câu hỏi: Ngày em nhận tin nhắn đầu tiên từ anh? 🔐</p>
+      <input type="password" id="secret-password" maxlength="10" placeholder="Nhập đáp án" autocomplete="off" inputmode="text">
+      <button id="password-submit">Mở khóa</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       AUDIO ELEMENT
+       ═══════════════════════════════════════ -->
+  <audio id="bg-audio" preload="auto" loop></audio>
+
+  <!-- Main Script -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+</html>
