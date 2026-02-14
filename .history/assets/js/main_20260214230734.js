@@ -622,7 +622,7 @@ function initPageBackgrounds() {
   Object.entries(pageBackgroundMap).forEach(([pageId, image]) => {
     const page = document.getElementById(pageId);
     if (!page) return;
-    page.style.setProperty('--page-bg', `url("/assets/images/${image}")`);
+    page.style.setProperty('--page-bg', `url("assets/images/${image}")`);
   });
 }
 
@@ -630,7 +630,7 @@ function initMemoryStage() {
   const stage = document.getElementById('memory-stage');
   if (!stage || CONFIG.images.length === 0) return;
 
-  stage.style.backgroundImage = `url("/assets/images/${CONFIG.images[0]}")`;
+  stage.style.backgroundImage = `url("assets/images/${CONFIG.images[0]}")`;
   const lineEl = document.getElementById('memory-stage-line');
   const lines = getMemoryStageLines();
   state.memoryStageIndex = 0;
@@ -661,7 +661,7 @@ function startMemoryStage() {
 
     stage.classList.add('memory-fade');
     setTimeout(() => {
-      stage.style.backgroundImage = `url("/assets/images/${imageList[state.memoryStageIndex]}")`;
+      stage.style.backgroundImage = `url("assets/images/${imageList[state.memoryStageIndex]}")`;
       if (lineEl && lines.length > 0) {
         lineEl.textContent = lines[state.memoryStageLineIndex];
       }
@@ -1153,7 +1153,7 @@ function renderLyricAtTime(currentTime) {
   }
 
   const offset = getCurrentTrackLyricOffset();
-  const t = (typeof currentTime === 'number' ? currentTime : 0) - offset;
+  const t = Math.max(0, (typeof currentTime === 'number' ? currentTime : 0) - offset);
 
   const idx = findLyricIndexAtTime(lyrics, t);
   if (idx === state.lyricIndex) return;
@@ -1225,21 +1225,11 @@ function initAudioVisualizer() {
     const bufferLength = state.analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
 
-    let lastCanvasW = 0;
-    let lastCanvasH = 0;
-
     function drawVisualizer() {
       requestAnimationFrame(drawVisualizer);
 
-      const dpr = Math.min(2, window.devicePixelRatio || 1);
-      const nextW = Math.max(1, Math.floor(canvas.offsetWidth * dpr));
-      const nextH = Math.max(1, Math.floor(canvas.offsetHeight * dpr));
-      if (nextW !== lastCanvasW || nextH !== lastCanvasH) {
-        canvas.width = nextW;
-        canvas.height = nextH;
-        lastCanvasW = nextW;
-        lastCanvasH = nextH;
-      }
+      canvas.width = canvas.offsetWidth * 2;
+      canvas.height = canvas.offsetHeight * 2;
       const w = canvas.width;
       const h = canvas.height;
 

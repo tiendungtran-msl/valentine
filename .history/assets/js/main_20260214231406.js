@@ -622,7 +622,7 @@ function initPageBackgrounds() {
   Object.entries(pageBackgroundMap).forEach(([pageId, image]) => {
     const page = document.getElementById(pageId);
     if (!page) return;
-    page.style.setProperty('--page-bg', `url("/assets/images/${image}")`);
+    page.style.setProperty('--page-bg', `url("assets/images/${image}")`);
   });
 }
 
@@ -630,7 +630,7 @@ function initMemoryStage() {
   const stage = document.getElementById('memory-stage');
   if (!stage || CONFIG.images.length === 0) return;
 
-  stage.style.backgroundImage = `url("/assets/images/${CONFIG.images[0]}")`;
+  stage.style.backgroundImage = `url("assets/images/${CONFIG.images[0]}")`;
   const lineEl = document.getElementById('memory-stage-line');
   const lines = getMemoryStageLines();
   state.memoryStageIndex = 0;
@@ -661,7 +661,7 @@ function startMemoryStage() {
 
     stage.classList.add('memory-fade');
     setTimeout(() => {
-      stage.style.backgroundImage = `url("/assets/images/${imageList[state.memoryStageIndex]}")`;
+      stage.style.backgroundImage = `url("assets/images/${imageList[state.memoryStageIndex]}")`;
       if (lineEl && lines.length > 0) {
         lineEl.textContent = lines[state.memoryStageLineIndex];
       }

@@ -622,7 +622,7 @@ function initPageBackgrounds() {
   Object.entries(pageBackgroundMap).forEach(([pageId, image]) => {
     const page = document.getElementById(pageId);
     if (!page) return;
-    page.style.setProperty('--page-bg', `url("/assets/images/${image}")`);
+    page.style.setProperty('--page-bg', `url("assets/images/${image}")`);
   });
 }
 
@@ -630,7 +630,7 @@ function initMemoryStage() {
   const stage = document.getElementById('memory-stage');
   if (!stage || CONFIG.images.length === 0) return;
 
-  stage.style.backgroundImage = `url("/assets/images/${CONFIG.images[0]}")`;
+  stage.style.backgroundImage = `url("assets/images/${CONFIG.images[0]}")`;
   const lineEl = document.getElementById('memory-stage-line');
   const lines = getMemoryStageLines();
   state.memoryStageIndex = 0;
@@ -661,7 +661,7 @@ function startMemoryStage() {
 
     stage.classList.add('memory-fade');
     setTimeout(() => {
-      stage.style.backgroundImage = `url("/assets/images/${imageList[state.memoryStageIndex]}")`;
+      stage.style.backgroundImage = `url("assets/images/${imageList[state.memoryStageIndex]}")`;
       if (lineEl && lines.length > 0) {
         lineEl.textContent = lines[state.memoryStageLineIndex];
       }
@@ -1053,57 +1053,6 @@ function getCurrentTrackLyrics() {
     .sort((a, b) => a.time - b.time);
 }
 
-function getCurrentTrackLyricOffset() {
-  if (CONFIG.music.length === 0) return 0;
-  const song = CONFIG.music[state.currentTrack];
-  if (!song) return 0;
-  const raw = song.lyricOffset;
-  return typeof raw === 'number' && Number.isFinite(raw) ? raw : 0;
-}
-
-function findLyricIndexAtTime(lyrics, t) {
-  if (!Array.isArray(lyrics) || lyrics.length === 0) return -1;
-  if (t < lyrics[0].time) return -1;
-
-  let lo = 0;
-  let hi = lyrics.length - 1;
-
-  while (lo <= hi) {
-    const mid = (lo + hi) >> 1;
-    if (lyrics[mid].time <= t) lo = mid + 1;
-    else hi = mid - 1;
-  }
-
-  return Math.max(-1, lo - 1);
-}
-
-function setLyricText(text) {
-  if (!state.songLyric) return;
-  const next = typeof text === 'string' ? text : '';
-  if (next === state.lastLyricText) return;
-
-  if (state.lyricFadeTimer) {
-    clearTimeout(state.lyricFadeTimer);
-    state.lyricFadeTimer = null;
-  }
-
-  const hasPrev = Boolean(state.lastLyricText);
-  state.lastLyricText = next;
-
-  if (!hasPrev) {
-    state.songLyric.classList.remove('is-fading');
-    state.songLyric.textContent = next;
-    return;
-  }
-
-  state.songLyric.classList.add('is-fading');
-  state.lyricFadeTimer = setTimeout(() => {
-    if (!state.songLyric) return;
-    state.songLyric.textContent = next;
-    state.songLyric.classList.remove('is-fading');
-  }, 160);
-}
-
 async function loadTrackLyrics(trackIndex) {
   const song = CONFIG.music[trackIndex];
   if (!song || !song.lrcFile) return;
@@ -1147,20 +1096,19 @@ function renderLyricAtTime(currentTime) {
   if (!state.songLyric) return;
   const lyrics = getCurrentTrackLyrics();
   if (lyrics.length === 0) {
-    state.lyricIndex = -1;
-    setLyricText('');
+    state.songLyric.textContent = '';
     return;
   }
 
-  const offset = getCurrentTrackLyricOffset();
-  const t = (typeof currentTime === 'number' ? currentTime : 0) - offset;
-
-  const idx = findLyricIndexAtTime(lyrics, t);
-  if (idx === state.lyricIndex) return;
-  state.lyricIndex = idx;
-
-  const line = idx >= 0 ? lyrics[idx].text : '';
-  setLyricText(line);
+  let line = '';
+  for (let i = 0; i < lyrics.length; i++) {
+    if (currentTime >= lyrics[i].time) {
+      line = lyrics[i].text;
+    } else {
+      break;
+    }
+  }
+  state.songLyric.textContent = line;
 }
 
 function stopLyricsSync() {
@@ -1168,31 +1116,16 @@ function stopLyricsSync() {
     clearInterval(state.lyricTimer);
     state.lyricTimer = null;
   }
-  if (state.lyricRafId) {
-    cancelAnimationFrame(state.lyricRafId);
-    state.lyricRafId = null;
-  }
 }
 
 function startLyricsSync() {
   stopLyricsSync();
-
-  state.lyricIndex = -1;
-  state.lastLyricText = '';
   renderLyricAtTime(state.audio ? state.audio.currentTime : 0);
 
-  const tick = () => {
+  state.lyricTimer = setInterval(() => {
     if (!state.audio) return;
     renderLyricAtTime(state.audio.currentTime || 0);
-    if (!state.audio.paused) {
-      state.lyricRafId = requestAnimationFrame(tick);
-    } else {
-      state.lyricRafId = null;
-    }
-  };
-
-  // RAF cho mượt + chính xác hơn timeupdate/setInterval
-  state.lyricRafId = requestAnimationFrame(tick);
+  }, 220);
 }
 
 function animateMusicBars(playing) {
@@ -1225,21 +1158,11 @@ function initAudioVisualizer() {
     const bufferLength = state.analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
 
-    let lastCanvasW = 0;
-    let lastCanvasH = 0;
-
     function drawVisualizer() {
       requestAnimationFrame(drawVisualizer);
 
-      const dpr = Math.min(2, window.devicePixelRatio || 1);
-      const nextW = Math.max(1, Math.floor(canvas.offsetWidth * dpr));
-      const nextH = Math.max(1, Math.floor(canvas.offsetHeight * dpr));
-      if (nextW !== lastCanvasW || nextH !== lastCanvasH) {
-        canvas.width = nextW;
-        canvas.height = nextH;
-        lastCanvasW = nextW;
-        lastCanvasH = nextH;
-      }
+      canvas.width = canvas.offsetWidth * 2;
+      canvas.height = canvas.offsetHeight * 2;
       const w = canvas.width;
       const h = canvas.height;
 
